@@ -1,0 +1,73 @@
+<form>
+  <h4>Select a query</h4>
+  <mat-form-field appearance="fill">
+    <mat-label>Query</mat-label>
+    <mat-select [(ngModel)]="selectedQuery" name="food">
+      <mat-option *ngFor="let query of queriesList" [value]="query">
+        {{ query }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <p>Selected query: {{ selectedQuery }}</p>
+
+  <button mat-raised-button color="primary" (click)="executeQuery()">
+    Submit
+  </button>
+</form>
+
+<!-- show query result depending on the query type -->
+<div *ngIf="selectedQuery === 'launchesPast' && data !== null">
+  <mat-card *ngFor="let launch of data.launchesPast">
+    <mat-card-header>
+      <mat-card-title>{{ launch.mission_name }}</mat-card-title>
+      <mat-card-subtitle>{{ launch.launch_date_local }}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <p>launch site: {{ launch.launch_site.site_name_long }}</p>
+      <a href="{{ launch.links.article_link }}" target="_blank">article link</a>
+      <br />
+      <a href="{{ launch.links.video_link }}" target="_blank">article video</a>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+<div *ngIf="selectedQuery === 'launchpads' && data !== null">
+  <mat-card *ngFor="let pad of data.launchPad">
+    <mat-card-header>
+      <mat-card-title>{{ pad.name }}</mat-card-title>
+      <mat-card-subtitle>{{ pad.status }}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <p>pad details: {{ pad.details }}</p>
+      <p>attempted launches: {{ pad.attempted_launches }}</p>
+      <p>successful launches: {{ pad.successful_launches }}</p>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+<div *ngIf="selectedQuery === 'missions' && data !== null">
+  <mat-card *ngFor="let mission of data.mission">
+    <mat-card-header>
+      <mat-card-title>{{ mission.name }}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <p>mission description: {{ mission.description }}</p>
+      <a href="{{ mission.website }}" target="_blank">mission website</a>
+      <br />
+      <a href="{{ mission.twitter }}" target="_blank">mission twitter</a>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+<div *ngIf="selectedQuery === 'dragons' && data !== null">
+  <mat-card *ngFor="let dragon of data.dragon">
+    <mat-card-header>
+      <mat-card-title>{{ dragon.name }}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <p>dragon description: {{ dragon.description }}</p>
+      <p>dragon crew capacity: {{ dragon.crew_capacity }}</p>
+      <p>dragon diameters: {{ dragon.diameter.meters }} meters</p>
+    </mat-card-content>
+  </mat-card>
+</div>
